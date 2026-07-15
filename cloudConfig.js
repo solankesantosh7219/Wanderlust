@@ -2,27 +2,22 @@ const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 
-console.log("Cloud Name:", process.env.CLOUD_NAME);
-console.log("API Key:", process.env.CLOUD_API_KEY);
-console.log(
-    "Secret Check:",
-    process.env.CLOUD_API_SECRET?.substring(0,3),
-    process.env.CLOUD_API_SECRET?.slice(-3)
-);
-
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET
 });
 
+cloudinary.api.ping()
+.then(result => console.log("Cloudinary:", result))
+.catch(err => console.log("Cloudinary Error:", err.message));
 
 
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: "wanderlust_DEV",
-       allowed_formats: ["png", "jpg","jpeg"],  //suport promise as well
+    //    allowed_formats: ["png", "jpg","jpeg"],  //suport promise as well
     },
 });
 
